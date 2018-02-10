@@ -1,4 +1,8 @@
+
+#if defined (_MSC_VER_)
 #include "stdafx.h"
+#endif
+
 #include "ray.h"
 
 namespace pbrt

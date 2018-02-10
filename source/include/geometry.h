@@ -1,5 +1,8 @@
 #pragma once
 
+#include <cmath>
+#include <algorithm>
+
 namespace pbrt
 {
 
@@ -51,11 +54,11 @@ namespace pbrt
 	template <typename T> 
 	inline vector3<T> Abs(T s, const vector3<T> &v) 
 	{ 
-		return vector3(std::abs(v.x), std::abs(v.y), std::abs(v.z)); 
+		return vector3<T>(std::abs(v.x), std::abs(v.y), std::abs(v.z)); 
 	}
 
 	template <typename T>
-	inline T Dot(const vector3<T> &v1, const vector3<T> &v)
+	inline T Dot(const vector3<T> &v1, const vector3<T> &v2)
 	{
 		//v1 * v2 = |v| * |w| * cos Q
 		//|v| - length of vector
@@ -125,13 +128,13 @@ namespace pbrt
 	}
 
 	template <typename T>
-	vector3<T> Permute(const vector3<T> &vd, int x, int y, int z)
+	vector3<T> Permute(const vector3<T> &v, int x, int y, int z)
 	{
 		return vector3<T>(v[x], v[y], v[z]);
 	}
 
 	template <typename T>
-	inline void CoordinateSystem(const vector3<T> &v1, vector3<T> *v, vector3<T> *v3)
+	inline void CoordinateSystem(const vector3<T> &v1, vector3<T> *v2, vector3<T> *v3)
 	{
 		//PBRT CHapter 2 Physically Based Rendering: From Theory to Implementation, Third Edition
 		//The implementation of this function assumes that the vector passed in, v1, has already been normalized. 
@@ -143,12 +146,12 @@ namespace pbrt
 
 		if (std::abs(v1.x)> std::abs(v1.y))
 		{
-				 *v2=Vector3<T>(-v1.z, 0, v1.x) /
+				 *v2=vector3<T>(-v1.z, 0, v1.x) /
 					  std::sqrt(v1.x * v1.x + v1.z * v1.z);
 		}
 		else
 		{
-				 *v2=Vector3<T>(0, v1.z, -v1.y) /
+				 *v2=vector3<T>(0, v1.z, -v1.y) /
 					  std::sqrt(v1.y * v1.y + v1.z * v1.z);
 		}
     
@@ -181,11 +184,13 @@ namespace pbrt
 		explicit point3(const point3<U> &p);
 	
 		//for some reason explicit not allowed
-		//template <typename U>
-		//explicit operator vector3<U>() const
-		//{
-		//	return vector3<U> (x, y, z);
-		//}
+#if defined(__GNUC__) || defined(__GNUG__)                 
+		template <typename U>
+		explicit operator vector3<U>() const
+		{
+                    return vector3<U> (x, y, z);
+		}
+#endif		
 
 		point3<T> operator+(const vector3<T> &v) const;
 		point3<T>& operator+=(const vector3<T> &v);
@@ -260,7 +265,7 @@ namespace pbrt
 	 {
 		public:
 			explicit normal3<T>(const vector3<T> &v);
-			bool normal3<T>::HasNaNs() const;
+			bool HasNaNs() const;
 
 		T x;
 		T y;
