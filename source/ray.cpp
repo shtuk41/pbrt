@@ -3,7 +3,8 @@
 #include "stdafx.h"
 #endif
 
-#include "ray.h"
+#include <TemplateInst.h>
+#include <ray.h>
 
 namespace pbrt
 {

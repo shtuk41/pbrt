@@ -35,3 +35,5 @@ namespace pbrt
 		vector3f ryDirection;
 	};
 }
+
+ #include "ray.cpp"

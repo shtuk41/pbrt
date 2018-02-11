@@ -21,9 +21,25 @@ int main(int argc, char* argv[])
 
 	pbrt::vector3f somevec = (pbrt::vector3f)point;
 
+	pbrt::normal3f norm3f(somevec);
+
 	std::cout << somevec.x << std::endl;
 	std::cout << somevec.y << std::endl;
 	std::cout << somevec.z << std::endl;
+
+	pbrt::bounds3f b3;
+
+	std::cout << b3.pMin.x << std::endl;
+	std::cout << b3.pMin.y << std::endl;
+	std::cout << b3.pMin.z << std::endl;
+	std::cout << b3.pMax.x << std::endl;
+	std::cout << b3.pMax.y << std::endl;
+	std::cout << b3.pMax.z << std::endl;
+
+	std::cout << b3[0].x << std::endl;
+	std::cout << b3[0].y << std::endl;
+	std::cout << b3[0].z << std::endl;
+
 
 #if defined (_MSC_VER_)        
 	system("pause");

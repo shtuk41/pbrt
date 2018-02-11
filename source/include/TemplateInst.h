@@ -1,9 +1,16 @@
 #pragma once
 
-#include <geometry.h>
+#include <normal.h>
+#include <point.h>
+#include <vector.h>
+#include <bounds.h>
+
 
 namespace pbrt
 {
+
+	template class normal3<float>;
+	typedef normal3<float> normal3f;
 
 	template class vector2<float>;
 	typedef vector2<float> vector2f;
@@ -24,8 +31,16 @@ namespace pbrt
 	typedef point3<float> point3f;
 	typedef point3<int> point3i;
 
-	template class normal3<float>;
-	typedef normal3<float> normal3f;
+	template class bounds2<float>;
+	template class bounds2<int>;
+	typedef bounds2<float> bounds2f;
+	typedef bounds2<int> bounds2i;
+
+	template class bounds3<float>;
+	template class bounds3<int>;
+	typedef bounds3<float> bounds3f;
+	typedef bounds3<int> bounds3i;
+
 }
 
 
