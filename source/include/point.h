@@ -50,6 +50,8 @@ namespace pbrt
 		vector3<T> operator-(const point3<T> &p) const;
 		point3<T> operator-(const vector3<T> &v);
 		point3<T> & operator-=(const vector3<T> &v);
+		point3<T> operator+(const point3<T> &p) const;
+		point3<T> operator/(T s) const;
 
 		bool HasNaNs() const;
 
@@ -73,6 +75,12 @@ namespace pbrt
 
 	template <typename T>
 	inline point3<T> Lerp(float t, const point3<T> &p0, const point3<T> &p1)
+	{
+		return (1 - t) * p0 + t * p1;
+	}
+
+	template <typename T>
+	inline T Lerp(float t, const T &p0, const T &p1)
 	{
 		return (1 - t) * p0 + t * p1;
 	}

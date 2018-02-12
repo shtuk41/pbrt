@@ -54,4 +54,94 @@ namespace pbrt
 
 	}
 
+	template <typename T>
+	vector3<T> bounds3<T>::Diagonal() const
+	{
+		return (pMax - pMin);
+	}
+
+	template <typename T>
+	T bounds3<T>::SurfaceArea() const
+	{
+		vector3<T> d = Diagonal();
+		return 2 * (d.x * d.y + d.x * d.z + d.y * d.z);
+	}
+
+	template <typename T>
+	T bounds3<T>::Volume() const
+	{
+		vector3<T> d = Diagonal();
+		return d.x * d.y * d.z;
+	}
+
+	/*
+		returns the index of which of the three axes is longest
+	*/
+	template <typename T>
+	int bounds3<T>::MaximumExtent() const
+	{
+		vector3<T> d = Diagonal();
+
+		if (d.x > d.y && d.x > d.z)
+			return 0;
+		else if (d.y > d.z)
+			return 1;
+		else
+			return 2;
+	}
+
+	/*
+		linearly interpolates between the corners of the box by the given
+		in each dimension
+	*/
+	template <typename T>
+	point3<T> bounds3<T>::Lerp(const point3<float> &t) const
+	{
+		return point3<T>(	pbrt::Lerp(t.x, pMin.x, pMax.x),
+							pbrt::Lerp(t.y, pMin.y, pMax.y),
+							pbrt::Lerp(t.z, pMin.z, pMax.z));
+	}
+
+	/*
+		returns the continous position of a point relative to the corners
+		of the box where a point at the minimum corner has offset (0,0,0),
+		a point at the maximum corner has offset (1,1,1)
+	*/
+	template <typename T>
+	vector3<T> bounds3<T>::Offset(const point3<T> &p) const
+	{
+		vector3<T> o = p - pMin;
+		if (pMax.x > pMin.x)
+		{
+			o.x /= (pMax.x - pMin.x);
+		}
+
+		if (pMax.y > pMin.y)
+		{
+
+			o.y /= (pMax.y - pMin.y);
+		}
+
+		if (pMax.z > pMin.z)
+		{
+			o.z /= (pMax.z - pMin.z);			
+		}
+
+		return o;
+	}
+
+	/*
+		Returns the center and radius of a sphere that bounds the 
+		bounding box.  In general, this may give a far looser fit than a sphere
+		that bounded the original contents of the bounds3 directly
+	*/
+	template <typename T>
+	void bounds3<T>::BoundingSphere(point3<T> *center, float *radius) const
+	{
+		*center = (pMin + pMax) / 2;
+		*radius= Inside(*center, *this) ? Distance(*center, pMax) : 0;
+	}
+
+
+
 }

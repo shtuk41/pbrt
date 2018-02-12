@@ -40,6 +40,8 @@ int main(int argc, char* argv[])
 	std::cout << b3[0].y << std::endl;
 	std::cout << b3[0].z << std::endl;
 
+	pbrt::bounds3f b4 = pbrt::Expand(b3, 1.0f);
+
 
 #if defined (_MSC_VER_)        
 	system("pause");

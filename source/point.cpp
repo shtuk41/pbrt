@@ -94,6 +94,20 @@ namespace pbrt
 		return *this;
 	}
 
+	template <typename T>
+	point3<T> point3<T>::operator+(const point3<T> &p) const
+	{
+		return point3<T>(x + p.x, y + p.y, z + p.z);
+	}
+
+	template <typename T>
+	point3<T> point3<T>::operator/(T s) const
+	{
+		assert(s != 0);
+		return point3<T>(x / s, y / s, z / s);
+	}
+
+
 	
 
 }
