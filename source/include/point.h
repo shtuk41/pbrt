@@ -82,7 +82,7 @@ namespace pbrt
 	template <typename T>
 	inline T Lerp(float t, const T &p0, const T &p1)
 	{
-		return (1 - t) * p0 + t * p1;
+		return static_cast<T>((1 - t) * p0 + t * p1);
 	}
 
 	 template <typename T>

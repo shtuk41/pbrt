@@ -19,13 +19,13 @@ int main(int argc, char* argv[])
 
 	pbrt::point3f point(10,10,10);
 
-	pbrt::vector3f somevec = (pbrt::vector3f)point;
+	//pbrt::vector3f somevec = (pbrt::vector3f)point;
 
-	pbrt::normal3f norm3f(somevec);
+	//pbrt::normal3f norm3f(somevec);
 
-	std::cout << somevec.x << std::endl;
-	std::cout << somevec.y << std::endl;
-	std::cout << somevec.z << std::endl;
+	//std::cout << somevec.x << std::endl;
+	//std::cout << somevec.y << std::endl;
+	//std::cout << somevec.z << std::endl;
 
 	pbrt::bounds3f b3;
 
