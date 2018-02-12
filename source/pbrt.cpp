@@ -19,13 +19,13 @@ int main(int argc, char* argv[])
 
 	pbrt::point3f point(10,10,10);
 
-	//pbrt::vector3f somevec = (pbrt::vector3f)point;
+	pbrt::vector3f somevec = (pbrt::vector3f)point;
 
-	//pbrt::normal3f norm3f(somevec);
+	pbrt::normal3f norm3f(somevec);
 
-	//std::cout << somevec.x << std::endl;
-	//std::cout << somevec.y << std::endl;
-	//std::cout << somevec.z << std::endl;
+	std::cout << somevec.x << std::endl;
+	std::cout << somevec.y << std::endl;
+	std::cout << somevec.z << std::endl;
 
 	pbrt::bounds3f b3;
 
@@ -43,7 +43,7 @@ int main(int argc, char* argv[])
 	pbrt::bounds3f b4 = pbrt::Expand(b3, 1.0f);
 
 
-#if defined (_MSC_VER_)        
+#if defined (_MSC_VER)        
 	system("pause");
 #endif        
 

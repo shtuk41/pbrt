@@ -24,7 +24,7 @@ namespace pbrt
 	template <typename T>
 	bool point3<T>::HasNaNs() const
 	{
-#if defined (_MSC_VER_)
+#if defined (_MSC_VER)
             return (_isnan(x) | _isnan(y) | _isnan(z)) > 0;
 #elif defined(__GNUC__) || defined(__GNUG__) 
             return (std::isnan(x) | std::isnan(y) | std::isnan(z)) > 0;
@@ -42,7 +42,7 @@ namespace pbrt
 	template <typename T>
 	bool point2<T>::HasNaNs() const
 	{
-#if defined (_MSC_VER_)
+#if defined (_MSC_VER)
             return (_isnan(x) | _isnan(y)) > 0;
 #elif defined(__GNUC__) || defined(__GNUG__) 
             return (std::isnan(x) | std::isnan(y)) > 0;

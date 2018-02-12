@@ -41,9 +41,17 @@ namespace pbrt
 		template <typename U>
 		explicit operator vector3<U>() const
 		{
-                    return vector3<U> (x, y, z);
+			return vector3<U> (x, y, z);
 		}
-#endif		
+#elif defined (_MSC_VER)
+		template <typename U>
+		operator vector3<U>() const
+		{
+			return vector3<U> (x, y, z);
+		}
+#endif	
+
+
 
 		point3<T> operator+(const vector3<T> &v) const;
 		point3<T>& operator+=(const vector3<T> &v);
