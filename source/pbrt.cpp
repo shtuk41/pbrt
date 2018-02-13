@@ -8,6 +8,7 @@
 #include <iostream>
 
 #include "TemplateInst.h"
+#include "transform.h"
 
 int main(int argc, char* argv[])
 {
@@ -41,6 +42,10 @@ int main(int argc, char* argv[])
 	std::cout << b3[0].z << std::endl;
 
 	pbrt::bounds3f b4 = pbrt::Expand(b3, 1.0f);
+
+	pbrt::matrix4x4 m, mOut;
+
+	bool success = Inverse(m, mOut);
 
 
 #if defined (_MSC_VER)        
