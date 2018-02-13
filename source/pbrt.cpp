@@ -47,6 +47,13 @@ int main(int argc, char* argv[])
 
 	bool success = Inverse(m, mOut);
 
+	if (success)
+	{
+		m.print();
+		mOut.print();
+
+	}
+
 
 #if defined (_MSC_VER)        
 	system("pause");

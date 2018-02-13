@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #endif
 
+#include <assert.h>
 #include <cstring>
 #include "transform.h"
 
@@ -74,6 +75,14 @@ namespace pbrt
         }
         
         return r;
+	}
+
+	matrix4x4 Transpose(const matrix4x4 &m)
+	{
+		return matrix4x4(m.m[0][0], m.m[1][0], m.m[2][0],m.m[3][0],
+						m.m[0][1], m.m[1][1], m.m[2][1],m.m[3][1],
+						m.m[0][2], m.m[1][2], m.m[2][2],m.m[3][2],
+						m.m[0][3], m.m[1][3], m.m[2][3],m.m[3][3]);
 	}
 
 	bool Inverse(const matrix4x4 &mat, matrix4x4 &invOut)
@@ -238,4 +247,79 @@ namespace pbrt
 
 	    return true;
 	}
+
+	void matrix4x4::print() const
+	{
+		std::cout << m[0][0] << m[0][1] << m[0][2] << m[0][3] << std::endl;
+		std::cout << m[1][0] << m[1][1] << m[1][2] << m[1][3] << std::endl;
+		std::cout << m[2][0] << m[2][1] << m[2][2] << m[2][3] << std::endl;
+		std::cout << m[3][0] << m[3][1] << m[3][2] << m[3][3] << std::endl;
+	}
+
+	transform::transform(const float mat[4][4])
+	{
+		m = matrix4x4(mat[0][0], mat[0][1], mat[0][2], mat[0][3],
+                     mat[1][0], mat[1][1], mat[1][2], mat[1][3],
+                     mat[2][0], mat[2][1], mat[2][2], mat[2][3],
+                     mat[3][0], mat[3][1], mat[3][2], mat[3][3]);
+
+		assert(Inverse(m,mInv) == true);
+	}
+
+	transform::transform(const matrix4x4 &m) : m(m)
+	{
+		assert(Inverse(m,mInv) == true);
+	}
+
+	transform::transform(const matrix4x4 &m, const matrix4x4 &mInv):m(m), mInv(mInv)
+	{
+
+	}
+
+	transform Inverse(const transform &t)
+	{
+		return transform(t.mInv, t.m);
+	}
+
+	transform Tranpose(const transform &t)
+	{
+		return transform(Transpose(t.m), Transpose(t.mInv));
+	}
+
+	transform transform::Translate(const vector3f &delta)
+	{
+		matrix4x4 m(1, 0, 0, delta.x,
+                     0, 1, 0, delta.y,
+                     0, 0, 1, delta.z,
+                     0, 0, 0, 1);
+        matrix4x4 minv(1, 0, 0, -delta.x,
+                     0, 1, 0, -delta.y,
+                     0, 0, 1, -delta.z,
+                     0, 0, 0, 1);
+         return transform(m, minv);
+	}
+
+	transform transform::Scale(float x, float y, float z)
+	{
+		matrix4x4 m(x, 0, 0, 0,
+                     0, y, 0, 0,
+                     0, 0, z, 0,
+                     0, 0, 0, 1);
+         matrix4x4 minv (1/x,  0, 0, 0,
+                     0, 1/y,   0, 0,
+                     0, 0, 1/z, 0,
+                     0, 0, 0, 1);
+         return transform(m, minv);
+	}
+
+	/*bool transform::HasScale() const
+	{
+		float la2=(*this)(vector3f(1, 0, 0)).LengthSquared();
+         float lb2=(*this)(vector3f(0, 1, 0)).LengthSquared();
+         float lc2=(*this)(vector3f(0, 0, 1)).LengthSquared();
+     #define NOT_ONE(x) ((x) <.999f | (x)> 1.001f)
+         return (NOT_ONE(la2) | NOT_ONE(lb2) | NOT_ONE(lc2));
+     #undef NOT_ONE
+
+	}*/
 }

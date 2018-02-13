@@ -1,5 +1,8 @@
 #pragma once
 
+#include <iostream>
+#include <TemplateInst.h>
+
 namespace pbrt
 {
 	struct matrix4x4
@@ -12,6 +15,7 @@ namespace pbrt
 					float t30, float t31, float t32, float t33);
 		static matrix4x4 Mul(const matrix4x4 &m1, const matrix4x4 &m2);
 		friend bool Inverse(const matrix4x4 &in, matrix4x4 &invOut);
+		void print() const;
 
 
 		float m[4][4];
@@ -22,8 +26,17 @@ namespace pbrt
 	class transform
 	{
 	public:
+		transform() {}
+		transform(const float mat[4][4]);
+		transform(const matrix4x4 &m);
+		transform(const matrix4x4 &m, const matrix4x4 &mInv);
+		friend transform Inverse(const transform &I);
+		friend transform Tranpose(const transform &t);
+		transform Translate(const vector3f &delta);
+		transform Scale(float x, float y, float z);
+		//bool HasScale() const;
 
-
+	private:
 		matrix4x4 m;
 		matrix4x4 mInv;
 	};
