@@ -54,6 +54,18 @@ int main(int argc, char* argv[])
 
 	}
 
+	pbrt::transform rotatex;
+
+	pbrt::transform rotatex2 = rotatex.RotateX(-90.0);
+
+	pbrt::vector3f vecrot(0,9.5,0);
+
+	pbrt::vector3f testrotatex = rotatex2(vecrot);
+
+	std::cout << testrotatex.x << std::endl;
+	std::cout << testrotatex.y << std::endl;
+	std::cout << testrotatex.z << std::endl;
+
 
 #if defined (_MSC_VER)        
 	system("pause");

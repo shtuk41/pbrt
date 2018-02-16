@@ -45,6 +45,10 @@ namespace pbrt
 
 	}
 
+	/*
+		Returns the coordinaes of one of the eight corners of the bounding
+		box
+	*/
 	template <typename T>
 	point3<T> bounds3<T>::Corner(int corner) const
 	{

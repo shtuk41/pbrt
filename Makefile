@@ -5,8 +5,11 @@ PBRT_INCLUDE=./source/include
 
 all: 	pbrt
 
-pbrt:	$(PBRT_SOURCE)pbrt.cpp
-	$(CC) $(CFLAGS)  -I$(PBRT_SOURCE) -I$(PBRT_INCLUDE) -o pbrt $(PBRT_SOURCE)pbrt.cpp 
+pbrt:	$(PBRT_SOURCE)pbrt.cpp transform
+	$(CC) $(CFLAGS)  -I$(PBRT_SOURCE) -I$(PBRT_INCLUDE) -o pbrte transform.o $(PBRT_SOURCE)pbrt.cpp 
+
+transform: $(PBRT_SOURCE)transform.cpp
+	$(CC) $(CFLAGS)  -I$(PBRT_INCLUDE) -I$(PBRT_SOURCE) -c -o transform.o $(PBRT_SOURCE)transform.cpp 
 
 clean:
-	rm -f pbrt *.o  *.out
+	rm -f pbrte *.o  *.out

@@ -8,6 +8,11 @@
 
 namespace pbrt
 {
+	float Radians(float degrees)
+	{
+		return degrees * M_PI / 180;
+	}
+
 	matrix4x4::matrix4x4()
 	{
 		m[0][0] = 1;
@@ -322,4 +327,70 @@ namespace pbrt
      #undef NOT_ONE
 
 	}*/
+
+    transform transform::RotateX(float theta)
+    {
+    	float sinTheta=std::sin(Radians(theta));
+    	float cosTheta=std::cos(Radians(theta));
+    	matrix4x4 m(1,0,0,0,
+    				0, cosTheta, -sinTheta, 0,
+		           	0, sinTheta, cosTheta, 0,
+		           	0, 0, 0, 1);
+         return transform(m, Transpose(m));
+    }
+
+    transform transform::RotateY(float theta)
+    {
+		float sinTheta=std::sin(Radians(theta));
+    	float cosTheta=std::cos(Radians(theta));
+    	matrix4x4 m(cosTheta,0,sinTheta,0,
+    				0, 1, 0, 0,
+		           	-sinTheta, 0, cosTheta, 0,
+		           	0, 0, 0, 1);
+         return transform(m, Transpose(m));
+
+    }
+	
+	transform transform::RotateZ(float theta)
+	{
+		float sinTheta=std::sin(Radians(theta));
+    	float cosTheta=std::cos(Radians(theta));
+    	matrix4x4 m(cosTheta,-sinTheta,0,0,
+    				sinTheta, cosTheta,0,0,
+		           	0, 0, 1, 0,
+		           	0, 0, 0, 1);
+         return transform(m, Transpose(m));
+
+	}
+
+	transform transform::LookAt(const point3f &pos, const point3f &look, const vector3f &up)
+	{
+		matrix4x4 cameraToWorld;
+
+		cameraToWorld.m[0][3] = pos.x;
+		cameraToWorld.m[0][3] = pos.y;
+		cameraToWorld.m[0][3] = pos.z;
+		cameraToWorld.m[0][3] = 1;
+
+		vector3f dir=Normalize(look - pos);
+	   vector3f left=Normalize(Cross(Normalize(up), dir));
+	   vector3f newUp=Cross(dir, left);
+	   cameraToWorld.m[0][0]=left.x;
+	   cameraToWorld.m[1][0]=left.y;
+	   cameraToWorld.m[2][0]=left.z;
+	   cameraToWorld.m[3][0]=0.;
+	   cameraToWorld.m[0][1]=newUp.x;
+	   cameraToWorld.m[1][1]=newUp.y;
+	   cameraToWorld.m[2][1]=newUp.z;
+	   cameraToWorld.m[3][1]=0.;
+	   cameraToWorld.m[0][2]=dir.x;
+	   cameraToWorld.m[1][2]=dir.y;
+	   cameraToWorld.m[2][2]=dir.z;
+	   cameraToWorld.m[3][2]=0.0;
+
+	   return cameraToWorld;
+
+	}
+
+
 }

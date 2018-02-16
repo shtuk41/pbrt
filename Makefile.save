@@ -1,0 +1,24 @@
+CC=c++
+CFLAGS=-g -Wall -std=c++11
+PBRT_SOURCE=./source/
+PBRT_INCLUDE=./source/include
+
+all: 	pbrt
+
+pbrt:	$(PBRT_SOURCE)pbrt.cpp transform
+	$(CC) $(CFLAGS)  -I$(PBRT_SOURCE) -I$(PBRT_INCLUDE) -o pbrte transform.o $(PBRT_SOURCE)pbrt.cpp 
+
+transform: $(PBRT_SOURCE)transform.cpp
+	$(CC) $(CFLAGS)  -I$(PBRT_INCLUDE) -c -o transform.o $(PBRT_SOURCE)transform.cpp 
+
+clean:
+	rm -f pbrte *.o  *.out
+Matrix4x4 m(1, 0, 0, delta.x,
+                     0, 1, 0, delta.y,
+                     0, 0, 1, delta.z,
+                     0, 0, 0, 1);
+         Matrix4x4 minv(1, 0, 0, -delta.x,
+                     0, 1, 0, -delta.y,
+                     0, 0, 1, -delta.z,
+                     0, 0, 0, 1);
+         return Transform(m, minv);
