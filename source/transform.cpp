@@ -317,16 +317,16 @@ namespace pbrt
          return transform(m, minv);
 	}
 
-	/*bool transform::HasScale() const
+	bool transform::HasScale() const
 	{
 		float la2=(*this)(vector3f(1, 0, 0)).LengthSquared();
          float lb2=(*this)(vector3f(0, 1, 0)).LengthSquared();
          float lc2=(*this)(vector3f(0, 0, 1)).LengthSquared();
-     #define NOT_ONE(x) ((x) <.999f | (x)> 1.001f)
+     #define NOT_ONE(x) (((x) <0.999f) | ((x)> 1.001f))
          return (NOT_ONE(la2) | NOT_ONE(lb2) | NOT_ONE(lc2));
      #undef NOT_ONE
 
-	}*/
+	}
 
     transform transform::RotateX(float theta)
     {
@@ -391,6 +391,42 @@ namespace pbrt
 	   return cameraToWorld;
 
 	}
+
+	pbrt::ray transform::operator()(const ray &r) const
+	{
+		vector3f oError;
+		point3f o = (*this)(r.o/*, &oError*/);
+		vector3f d = (*this)(r.d);
+
+		return pbrt::ray(o,d,FLT_MAX,r.time, r.medium_in);
+	}    
+
+	bounds3f transform::operator()(const bounds3f &b) const
+	{
+		const transform &M=*this;
+	     bounds3f ret(M(point3f(b.pMin.x, b.pMin.y, b.pMin.z)));
+	     ret=Union(ret, M(point3f(b.pMax.x, b.pMin.y, b.pMin.z)));
+	     ret=Union(ret, M(point3f(b.pMin.x, b.pMax.y, b.pMin.z)));
+	     ret=Union(ret, M(point3f(b.pMin.x, b.pMin.y, b.pMax.z)));
+	     ret=Union(ret, M(point3f(b.pMin.x, b.pMax.y, b.pMax.z)));
+	     ret=Union(ret, M(point3f(b.pMax.x, b.pMax.y, b.pMin.z)));
+	     ret=Union(ret, M(point3f(b.pMax.x, b.pMin.y, b.pMax.z)));
+	     ret=Union(ret, M(point3f(b.pMax.x, b.pMax.y, b.pMax.z)));
+	     return ret;
+	}  
+
+	transform transform::operator*(const transform &t2) const {
+         return transform(matrix4x4::Mul(m, t2.m), matrix4x4::Mul(t2.mInv, mInv));
+     }    
+
+     bool transform::SwapsHandedness() const {
+         float det =
+           m.m[0][0] * (m.m[1][1] * m.m[2][2] - m.m[1][2] * m.m[2][1]) -
+           m.m[0][1] * (m.m[1][0] * m.m[2][2] - m.m[1][2] * m.m[2][0]) +
+           m.m[0][2] * (m.m[1][0] * m.m[2][1] - m.m[1][1] * m.m[2][0]);
+         return det <0;
+     }
+         
 
 
 }

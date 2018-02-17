@@ -4,7 +4,7 @@
 #endif
 
 #include <TemplateInst.h>
-#include <ray.h>
+#include "ray.h"
 
 namespace pbrt
 {

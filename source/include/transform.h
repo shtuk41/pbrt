@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <TemplateInst.h>
+#include "ray.h"
 
 namespace pbrt
 {
@@ -34,7 +35,7 @@ namespace pbrt
 		friend transform Tranpose(const transform &t);
 		transform Translate(const vector3f &delta);
 		transform Scale(float x, float y, float z);
-		//bool HasScale() const;
+		bool HasScale() const;
 		transform RotateX(float theta);
 		transform RotateY(float theta);
 		transform RotateZ(float theta);
@@ -70,10 +71,45 @@ namespace pbrt
 	                          m.m[2][0]*x + m.m[2][1]*y + m.m[2][2]*z);
 		}
 
+		template <class T>
+		normal3<T> operator()(const normal3<T> &n)
+		{
+			T x=n.x, y=n.y, z=n.z;
+         	return normal3<T>(mInv.m[0][0]*x + mInv.m[1][0]*y + mInv.m[2][0]*z,
+                                mInv.m[0][1]*x + mInv.m[1][1]*y + mInv.m[2][1]*z,
+                                mInv.m[0][2]*x + mInv.m[1][2]*y + mInv.m[2][2]*z);
+		}
+
+		pbrt::ray operator()(const ray &r) const;
+		bounds3f operator()(const bounds3f &b) const;
+		transform operator*(const transform &t2) const;
+		bool SwapsHandedness() const;
+
+		friend bool operator!=(const transform &t1, const transform &t2);
+
+		const matrix4x4 & GetMatrix() const { return m;}
+		const matrix4x4 & GetInverse() const {return mInv;}
+
 	private:
 		matrix4x4 m;
 		matrix4x4 mInv;
 	};
+
+
+	inline bool operator!=(const transform &t1, const transform &t2)
+	{
+		bool eq = true;
+
+		for (int ii = 0; ii < 4; ii++)
+		{
+			for (int jj = 0; jj < 4; jj++)
+			{
+				eq &= t1.m.m[ii][jj] == t2.m.m[ii][jj];
+			}
+		}
+
+		return !eq;
+	}
 
 	
 }
