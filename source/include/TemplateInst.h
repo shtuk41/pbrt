@@ -8,7 +8,6 @@
 
 namespace pbrt
 {
-
 	template class normal3<float>;
 	typedef normal3<float> normal3f;
 

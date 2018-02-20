@@ -22,7 +22,10 @@ namespace pbrt
 		float m[4][4];
 	};
 
+	class transform;
+
 	matrix4x4 Transpose(const matrix4x4 &m);
+	transform Translate(const vector3f &delta);
 
 	class transform
 	{
@@ -33,7 +36,7 @@ namespace pbrt
 		transform(const matrix4x4 &m, const matrix4x4 &mInv);
 		friend transform Inverse(const transform &I);
 		friend transform Tranpose(const transform &t);
-		transform Translate(const vector3f &delta);
+		friend transform Translate(const vector3f &delta);
 		transform Scale(float x, float y, float z);
 		bool HasScale() const;
 		transform RotateX(float theta);

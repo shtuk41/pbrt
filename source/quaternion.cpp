@@ -6,12 +6,14 @@
 #include <transform.h>
 #include <quaternion.h>
 
+static float Clamp(float in, float min, float max)
+{
+	return std::min(std::max(in, min), max);
+}
+
 namespace pbrt
 {
-	float Clamp(float in, float min, float max)
-	{
-		return std::min(std::max(in, min), max);
-	}
+
 
 	quaternion::quaternion(const transform &t)
 	{

@@ -291,7 +291,7 @@ namespace pbrt
 		return transform(Transpose(t.m), Transpose(t.mInv));
 	}
 
-	transform transform::Translate(const vector3f &delta)
+	transform Translate(const vector3f &delta)
 	{
 		matrix4x4 m(1, 0, 0, delta.x,
                      0, 1, 0, delta.y,
