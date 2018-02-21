@@ -21,6 +21,8 @@ namespace pbrt
 	typedef vector3<int> vector3i;
 
 	template class point2<float>;
+	typedef point2<float> point2f;
+
 	template class point2<int>;
 	typedef vector2<float> vector2f;
 	typedef vector2<int> vector2i;

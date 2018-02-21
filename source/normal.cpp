@@ -13,6 +13,22 @@ namespace pbrt
 		assert(!v.HasNaNs());
 	}
 
+	template <typename T>
+	normal3<T> & normal3<T>::operator*=(T a)
+	{
+		x *= a;
+		y *= a;
+		z *= a;
+		return *this;
+	}
+
+	template <typename T>
+	normal3<T> normal3<T>::operator-() const
+	{
+		normal3<T> n(vector3<T>(-x,-y,-z));
+		return n;
+	}
+
 
 	template <typename T>
 	bool normal3<T>::HasNaNs() const

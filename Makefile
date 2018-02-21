@@ -5,7 +5,7 @@ PBRT_INCLUDE=./source/include
 
 all: 	pbrt
 
-pbrt:	$(PBRT_SOURCE)pbrt.cpp transform ray quaternion animatedtransform interval
+pbrt:	$(PBRT_SOURCE)pbrt.cpp transform ray quaternion animatedtransform interval interaction
 	$(CC) $(CFLAGS)  -I$(PBRT_SOURCE) -I$(PBRT_INCLUDE) -o pbrte transform.o ray.o quaternion.o animatedtransform.o interval.o $(PBRT_SOURCE)pbrt.cpp 
 
 transform: $(PBRT_SOURCE)transform.cpp 
@@ -22,6 +22,10 @@ animatedtransform:
 
 interval:
 	$(CC) $(CFLAGS)  -I$(PBRT_INCLUDE) -I$(PBRT_SOURCE) -c -o interval.o $(PBRT_SOURCE)interval.cpp 
+
+interaction:
+	$(CC) $(CFLAGS)  -I$(PBRT_INCLUDE) -I$(PBRT_SOURCE) -c -o interaction.o $(PBRT_SOURCE)interaction.cpp 
+
 
 clean:
 	rm -f pbrte *.o  *.out
