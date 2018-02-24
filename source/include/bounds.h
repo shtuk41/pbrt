@@ -33,6 +33,9 @@ namespace pbrt
 		point3<T> Lerp(const point3<float> &t) const;
 		vector3<T> Offset(const point3<T> &p) const;
 		void BoundingSphere(point3<T> *center, float *radius) const;
+		bool IntersectP(const ray &r, float *hitt0, float *hitt1) const;
+		bool IntersectP(const Ray &ray, const Vector3f &invDir, const int dirIsNeg[3]) const;
+
 
 		point3<T>	pMin;
 		point3<T>	pMax;

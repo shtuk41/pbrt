@@ -147,5 +147,70 @@ namespace pbrt
 	}
 
 
+     template <typename T>
+     bool bound3<T>::IntersectP(const ray &r, float *hitt0, float *hitt1) const
+     {
+     	float t0 = 0, t1=ray.tMax;
+     	for (int i = 0; i < 3; ++i)
+     	{
+     		//〈Update interval forith bounding box slab 128〉
+     		float invRayDir=1.0f /  ray.d[i];
+     		float tNear = (pMin[i] - ray.o[i]) * invRayDir;
+     		float tFar = (pMax[i] - ray.o[i]) * invRayDir; 
+     		// Update parametric interval from slab intersection t values 128〉
+     		if (tNear > tFar) 
+     		{
+     			std::swap(tNear, tFar);	
+     		}
+     		//〈UpdatetFar to ensure robust ray–bounds intersection 221〉
+     		t0=tNear > t0 ? tNear : t0;
+   			t1=tFar < t1 ? tFar: t1;
+   			if (t0 > t1) 
+   			{
+   				return false;
+   			}
+     	}
+     	
+     	if (hitt0)
+     		*hitt0 = t0;
+     	
+     	if (hitt1)
+     		*hitt1 = t1;
+
+     	return true;
+     }
+
+     template <typename T>
+     bool IntersectP(const Ray &ray, const Vector3f &invDir, const int dirIsNeg[3]) const
+     {
+     	const bounds3f &bounds = *this;
+
+     	//〈Check for ray intersection against x and y slabs 129〉
+     	float tMin = (bounds[ dirIsNeg[0]].x - ray.o.x) * invDir.x;
+	    float tMax = (bounds[1-dirIsNeg[0]].x - ray.o.x) * invDir.x;
+	   	float tyMin=(bounds[ dirIsNeg[1]].y - ray.o.y) * invDir.y;
+	    float tyMax=(bounds[1-dirIsNeg[1]].y - ray.o.y) * invDir.y;
+	   //〈UpdatetMaxandtyMaxto ensure robust bounds intersection〉
+	   	if (tMin > tyMax || tyMin > tMax)
+	         return false;
+	   	if (tyMin > tMin) 
+	   	{
+	   		tMin=tyMin;
+	   	}
+
+	   	if (tyMax < tMax) 
+	   	{
+	   		tMax=tyMax;
+	   	}
+
+        //   〈Check for ray intersection against z slab〉
+        //  TODO
+
+
+        return (tMin < ray.tMax) && (tMax > 0);
+
+     }
+
+
 
 }
