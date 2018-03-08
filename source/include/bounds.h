@@ -2,6 +2,8 @@
 
 #include <limits>
 #include <point.h>
+#include <ray.h>
+#include "TemplateInst.h"
 
 namespace pbrt
 {
@@ -34,7 +36,7 @@ namespace pbrt
 		vector3<T> Offset(const point3<T> &p) const;
 		void BoundingSphere(point3<T> *center, float *radius) const;
 		bool IntersectP(const ray &r, float *hitt0, float *hitt1) const;
-		bool IntersectP(const Ray &ray, const Vector3f &invDir, const int dirIsNeg[3]) const;
+		bool IntersectP(const ray &r, const vector3<float> &invDir, const int dirIsNeg[3]) const;
 
 
 		point3<T>	pMin;

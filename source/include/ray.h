@@ -1,7 +1,8 @@
 #pragma once
 
 #include <float.h>
-#include "TemplateInst.h"
+#include <point.h>
+#include <vector.h>
 
 namespace pbrt
 {
@@ -11,10 +12,10 @@ namespace pbrt
 	{
 		public:
 			ray();
-			ray(const point3f &o, const vector3f &d, float tMax, float time, const medium *medium_c);
-			point3f operator() (float t) const;
-			point3f o;
-			vector3f d;
+			ray(const point3<float> &o, const vector3<float> &d, float tMax, float time, const medium *medium_c);
+			point3<float> operator() (float t) const;
+			point3<float> o;
+			vector3<float> d;
 			mutable float tMax;
 			float time;
 			const medium *medium_in;
@@ -24,14 +25,14 @@ namespace pbrt
 	{
 	public:
 		raydifferential();
-		raydifferential(const point3f &o, const vector3f &d, float tMax, float time, const medium *medium_c);
+		raydifferential(const point3<float> &o, const vector3<float> &d, float tMax, float time, const medium *medium_c);
 		raydifferential(const ray &r);
 		void ScaleDifferentials(float s);
 
 		bool	hasDifferentials;
-		point3f	rxOrigin;
-		point3f ryOrigin;
-		vector3f rxDirection;
-		vector3f ryDirection;
+		point3<float>	rxOrigin;
+		point3<float> ryOrigin;
+		vector3<float> rxDirection;
+		vector3<float> ryDirection;
 	};
 }

@@ -60,6 +60,7 @@ namespace pbrt
 		point3<T> & operator-=(const vector3<T> &v);
 		point3<T> operator+(const point3<T> &p) const;
 		point3<T> operator/(T s) const;
+		T operator[](int i) const;
 
 		bool HasNaNs() const;
 

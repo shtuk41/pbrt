@@ -18,10 +18,10 @@ namespace pbrt
     	return (*ObjectToWorld)(ObjectBound());
     }   
 
-    bool shape::IntersectP(const ray &r, bool testAlphaTexture=true) const
+    bool shape::IntersectP(const ray &ray, bool testAlphaTexture=true) const
     {
     	float tHit = ray.tMax;
-    	SurfaceInteraction isect;
-    	return Intersect(ray, &tHit, &isect, testAlphaTexture);
+    	surfaceinteraction *isect;
+    	return Intersect(ray, &tHit, isect, testAlphaTexture);
     }   		
 }

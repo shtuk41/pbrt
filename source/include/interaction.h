@@ -1,17 +1,11 @@
 #pragma once
 
 #include <TemplateInst.h>
+#include <shape.h>
 
 
 namespace pbrt
 {
-	class shape
-	{
-	public:
-		bool reverseOrientation;
-		bool transformSwapsHandedness;
-	};
-
 	class mediuminterface
 	{
 

@@ -107,6 +107,19 @@ namespace pbrt
 		return point3<T>(x / s, y / s, z / s);
 	}
 
+	template <typename T>
+	T point3<T>::operator[](int i) const
+	{
+		assert(i >= 0 && i <=2);
+
+		if (i == 0)
+			return x;
+		else if (i == 1)
+			return y;
+		else
+			return z;
+	}
+
 
 	
 

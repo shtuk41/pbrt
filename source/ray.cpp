@@ -3,15 +3,14 @@
 #include "stdafx.h"
 #endif
 
-#include <TemplateInst.h>
-#include "ray.h"
+#include <ray.h>
 
 namespace pbrt
 {
 	ray::ray() : tMax(FLT_MAX), time(0.0f), medium_in(nullptr) {}
-	ray::ray(const point3f &o, const vector3<float> &d, float tMax = FLT_MAX, float time = 0.0f, const medium *medium = nullptr):
+	ray::ray(const point3<float> &o, const vector3<float> &d, float tMax = FLT_MAX, float time = 0.0f, const medium *medium = nullptr):
 		o(o), d(d), tMax(tMax), time(time), medium_in(medium) { }
-	point3f ray::operator() (float t) const
+	point3<float> ray::operator() (float t) const
 	{
 		return o + d * t;
 	}
@@ -21,7 +20,7 @@ namespace pbrt
 		hasDifferentials = false;
 	}
 
-	raydifferential::raydifferential(const point3f &o, const vector3f &d, float tMax = FLT_MAX, float time = 0.0f, const medium *medium_c = nullptr):
+	raydifferential::raydifferential(const point3<float> &o, const vector3<float> &d, float tMax = FLT_MAX, float time = 0.0f, const medium *medium_c = nullptr):
 		ray(o,d,tMax,time,medium_c)
 		{
 			hasDifferentials = false;

@@ -148,15 +148,15 @@ namespace pbrt
 
 
      template <typename T>
-     bool bound3<T>::IntersectP(const ray &r, float *hitt0, float *hitt1) const
+     bool bounds3<T>::IntersectP(const ray &r, float *hitt0, float *hitt1) const
      {
-     	float t0 = 0, t1=ray.tMax;
+     	float t0 = 0, t1=r.tMax;
      	for (int i = 0; i < 3; ++i)
      	{
      		//〈Update interval forith bounding box slab 128〉
-     		float invRayDir=1.0f /  ray.d[i];
-     		float tNear = (pMin[i] - ray.o[i]) * invRayDir;
-     		float tFar = (pMax[i] - ray.o[i]) * invRayDir; 
+     		float invRayDir=1.0f /  r.d[i];
+     		float tNear = (pMin[i] - r.o[i]) * invRayDir;
+     		float tFar = (pMax[i] - r.o[i]) * invRayDir; 
      		// Update parametric interval from slab intersection t values 128〉
      		if (tNear > tFar) 
      		{
@@ -181,9 +181,9 @@ namespace pbrt
      }
 
      template <typename T>
-     bool IntersectP(const Ray &ray, const Vector3f &invDir, const int dirIsNeg[3]) const
+     bool bounds3<T>::IntersectP(const ray &ray, const vector3<float> &invDir, const int dirIsNeg[3]) const
      {
-     	const bounds3f &bounds = *this;
+     	const bounds3<T> &bounds = *this;
 
      	//〈Check for ray intersection against x and y slabs 129〉
      	float tMin = (bounds[ dirIsNeg[0]].x - ray.o.x) * invDir.x;
