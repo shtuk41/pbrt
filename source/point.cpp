@@ -74,13 +74,13 @@ namespace pbrt
 	}
 
 	template <typename T>
-	vector3<T> point3<T>::operator-(const point3<T> &p) const
+	vector3<T> point3<T>::operator-(const point3<T>& p) const
 	{
 		return vector3<T>(x - p.x, y - p.y, z - p.z);
 	}
 
 	template <typename T>
-	point3<T> point3<T>::operator-(const vector3<T> &v)
+	point3<T> point3<T>::operator-(const vector3<T> &v) const
 	{
 		return point3<T>(x - v.x,y - v.y, z - v.z);
 	}
@@ -105,6 +105,12 @@ namespace pbrt
 	{
 		assert(s != 0);
 		return point3<T>(x / s, y / s, z / s);
+	}
+
+	template <typename T>
+	point3<T> point3<T>::operator*(float s) const
+	{
+		return point3<T>(x * static_cast<T>(s), y * static_cast<T>(s), z * static_cast<T>(s));
 	}
 
 	template <typename T>

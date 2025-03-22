@@ -36,3 +36,5 @@ namespace pbrt
 		vector3<float> ryDirection;
 	};
 }
+
+#include <ray.cpp>

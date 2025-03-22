@@ -2,9 +2,12 @@
 #include "stdafx.h"
 #endif
 
+
 #include <assert.h>
 #include <cstring>
 #include "transform.h"
+
+#define M_PI 3.1415926535f
 
 namespace pbrt
 {
@@ -372,7 +375,8 @@ namespace pbrt
 		cameraToWorld.m[0][3] = pos.z;
 		cameraToWorld.m[0][3] = 1;
 
-		vector3f dir=Normalize(look - pos);
+  
+	   vector3f dir=Normalize(look - pos);
 	   vector3f left=Normalize(Cross(Normalize(up), dir));
 	   vector3f newUp=Cross(dir, left);
 	   cameraToWorld.m[0][0]=left.x;

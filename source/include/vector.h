@@ -76,13 +76,13 @@ namespace pbrt
 	{
 		//|v x w| = |v| * |w| * sin Q
 
-		double v1x = v1.x;
-		double v1y = v1.y;
-		double v1z = v1.z;
+		T v1x = v1.x;
+		T v1y = v1.y;
+		T v1z = v1.z;
 
-		double v2x = v2.x;
-		double v2y = v2.y;
-		double v2z = v2.z;
+		T v2x = v2.x;
+		T v2y = v2.y;
+		T v2z = v2.z;
 
 		return vector3<T>((v1y * v2z) - (v1z * v2y), (v1z * v2x) - (v1x * v2z), (v1x * v2y) - (v1y * v2x));
 
